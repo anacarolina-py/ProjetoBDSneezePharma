@@ -1,5 +1,5 @@
 
-------------- CRIA«√O DO BANCO DE DADOS -------------
+------------- CRIA√á√ÉO DO BANCO DE DADOS -------------
 
 CREATE DATABASE SneezePharma
 GO
@@ -7,7 +7,7 @@ GO
 USE SneezePharma
 GO
 
-------------- CONSTRU«√O DAS TABELAS -------------
+------------- CONSTRU√á√ÉO DAS TABELAS -------------
 
 CREATE TABLE Suppliers(
 	idSupplier INT NOT NULL PRIMARY KEY IDENTITY (1,1),
@@ -134,7 +134,7 @@ CREATE TABLE SaleAndItems(
 	idSaleItem INT NOT NULL
 	);
 
-------------- CRIA«√O DAS FK -------------
+------------- CRIA√á√ÉO DAS FK -------------
 
 ALTER TABLE RestrictedSuppliers
 ADD FOREIGN KEY (CNPJ) REFERENCES Suppliers(CNPJ);
@@ -174,7 +174,7 @@ ALTER TABLE SaleAndItems
 ADD FOREIGN KEY (idSale) REFERENCES Sales(idSale),
 FOREIGN KEY (idSaleItem) REFERENCES SaleItems(idSaleItem);
 
---ALTERA«’ES 
+--ALTERA√á√ïES 
 
 ALTER TABLE Customers
 ADD CONSTRAINT CK_Cliente_Maior18
@@ -204,7 +204,7 @@ BEGIN
     )
     BEGIN
         ROLLBACK TRANSACTION;
-        RAISERROR('Fornecedor est· na lista restrita. Compra n„o permitida.', 16, 1);
+        RAISERROR('Fornecedor est√° na lista restrita. Compra n√£o permitida.', 16, 1);
     END
 END;
 GO
@@ -224,7 +224,7 @@ BEGIN
     )
     BEGIN
         ROLLBACK TRANSACTION;
-        RAISERROR('Cliente est· na lista restrita. Venda n„o permitida.', 16, 1);
+        RAISERROR('Cliente est√° na lista restrita. Venda n√£o permitida.', 16, 1);
     END
 END;
 GO
@@ -245,7 +245,7 @@ BEGIN
     )
     BEGIN
         ROLLBACK TRANSACTION;
-        RAISERROR('Uma compra n„o pode conter mais de 3 itens.', 16, 1);
+        RAISERROR('Uma compra n√£o pode conter mais de 3 itens.', 16, 1);
     END
 END;
 GO
@@ -268,7 +268,7 @@ BEGIN
     )
     BEGIN
         ROLLBACK TRANSACTION;
-        RAISERROR('Uma venda n„o pode conter mais de 3 itens.', 16, 1);
+        RAISERROR('Uma venda n√£o pode conter mais de 3 itens.', 16, 1);
     END
 END;
 GO
@@ -333,4 +333,39 @@ BEGIN
 END;
 GO
 
-
+--bloqueia o DELETE na tabela customers
+CREATE OR ALTER TRIGGER trg_BloqueiaDeleteCustomers
+ON Customers
+INSTEAD OF DELETE
+AS
+BEGIN
+    RAISERROR('N√£o √© permitido realizar DELETE nesta tabela.', 16, 1);
+END;
+GO
+--bloqueia o DELETE na tabela suppliers
+CREATE OR ALTER TRIGGER trg_BloqueiaDeleteSuppliers
+ON Suppliers
+INSTEAD OF DELETE
+AS
+BEGIN
+    RAISERROR('N√£o √© permitido realizar DELETE nesta tabela.', 16, 1);
+END;
+GO
+--bloqueia o DELETE na tabela ingredient
+CREATE OR ALTER TRIGGER trg_BloqueiaDeleteIngredient
+ON Ingredients
+INSTEAD OF DELETE
+AS
+BEGIN
+    RAISERROR('N√£o √© permitido realizar DELETE nesta tabela.', 16, 1);
+END;
+GO
+--bloqueia o DELETE na tabela medicine
+CREATE OR ALTER TRIGGER trg_BloqueiaDeleteMedicine
+ON Medicines
+INSTEAD OF DELETE
+AS
+BEGIN
+    RAISERROR('N√£o √© permitido realizar DELETE nesta tabela.', 16, 1);
+END;
+GO 
